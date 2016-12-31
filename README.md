@@ -10,6 +10,9 @@ Suite of tools for generating polynomials for approximation, uncertainty quantif
 www.effective-quadratures.org
 <br>
 
+# Downloads
+Visit the [Downloads](https://github.com/Effective-Quadratures/Effective-Quadratures/releases/tag/v4.0) section and get the latest release version. 
+
 # Installation
 For installation on Mac and Linux systems, simply type the following into the terminal. 
 ```bash
@@ -28,6 +31,9 @@ Effective-Quadratures uses [Travis](https://travis-ci.org/Effective-Quadratures/
 ```
 # Documentation
 We use Sphinx for code documentation. See [Read the Docs] (http://www-edc.eng.cam.ac.uk/~ps583/docs/) for more information.
+
+# Contributing
+For contributing to this project, do shoot us an email! We always have a set of routines that need coding and are interested in adding more functionalities. We also have a few projects ideal for Masters and PhD students. 
 
 # Contact
 For details and queries please contact:<br>
