@@ -11,7 +11,7 @@ www.effective-quadratures.org
 <br>
 
 # Downloads
-Visit the [Downloads](https://github.com/Effective-Quadratures/Effective-Quadratures/releases/tag/v4.0) section and get the latest release version. 
+Visit the [Downloads](https://github.com/Effective-Quadratures/Effective-Quadratures/releases/tag/v4.0) section and get the latest release version. Development is very active right now, stay tuned for a new release in the second week of February 2017.
 
 # Installation
 For installation on Mac and Linux systems, simply type the following into the terminal. 
