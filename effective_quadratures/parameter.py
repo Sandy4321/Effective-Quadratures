@@ -115,14 +115,12 @@ class Parameter(object):
         return mu
 
 
-    def getPDF(self, N, graph=None):
+    def getPDF(self, N):
         """
-        Returns the PDF of the parameter 
+        Returns the probability density function of the parameter 
 
         :param Parameter self: An instance of the Parameter class
         :param integer N: Number of points along the x-axis 
-        :param boolean graph: Select 1 for python to plot the PDF on a graph. Default is 0, in which case
-            no graph is produced 
         :return: x, 1-by-N matrix that contains the values of the x-axis along the support of the parameter 
         :rtype: ndarray
         :return: w, 1-by-N matrix that contains the values of the PDF of the parameter
@@ -134,35 +132,23 @@ class Parameter(object):
             >> x, y = var1.getPDF(50)
         """
         if self.param_type is "Gaussian":
-            x, y = analytical.Gaussian(N, self.shape_parameter_A, self.shape_parameter_B)
+            x, y = analytical.PDF_GaussianDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
         elif self.param_type is "Beta":
-            x, y = analytical.BetaDistribution(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper) 
+            x, y = analytical.PDF_BetaDistribution(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper) 
         elif self.param_type is "Gamma":
-            x, y = analytical.Gamma(N, self.shape_parameter_A, self.shape_parameter_B)
+            x, y = analytical.PDF_Gamma(N, self.shape_parameter_A, self.shape_parameter_B)
         elif self.param_type is "Weibull":
-            x, y = analytical.WeibullDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
+            x, y = analytical.PDF_WeibullDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
         elif self.param_type is "Cauchy":
-            x, y = analytical.CauchyDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
+            x, y = analytical.PDF_CauchyDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
         elif self.param_type is "Uniform":
-            x, y = analytical.UniformDistribution(N, self.lower, self.upper)
+            x, y = analytical.PDF_UniformDistribution(N, self.lower, self.upper)
         elif self.param_type is "TruncatedGaussian":
-            x, y = analytical.TruncatedGaussian(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper)
+            x, y = analytical.PDF_TruncatedGaussian(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper)
         elif self.param_type is "Exponential":
-            x, y = analytical.ExponentialDistribution(N, self.shape_parameter_A)
+            x, y = analytical.PDF_ExponentialDistribution(N, self.shape_parameter_A)
         else:
-            error_function('parameter getPDF(): invalid parameter type!')
-        
-        if graph is None:
-            return x, y
-        elif graph == 1:
-            fig = plt.figure()
-            plt.plot(x, y, 'k-')
-            plt.xlabel('x')
-            plt.ylabel('PDF')
-            plt.show()
-        else:
-            error_function('parameter getPDF(): invalid value for graph!')
-
+            raise(ValueError, 'parameter getPDF(): invalid parameter type!')
         return x, y
 
     def getSamples(self, m=None, graph=None):
@@ -191,6 +177,41 @@ class Parameter(object):
             
         return yy
     
+    def get_CDF(self, N):
+        """
+        Returns the cumulative density function of the parameter 
+
+        :param Parameter self: An instance of the Parameter class
+        :param integer N: Number of points along the x-axis 
+        :return: x, 1-by-N matrix that contains the values of the x-axis along the support of the parameter 
+        :rtype: ndarray
+        :return: w, 1-by-N matrix that contains the values of the PDF of the parameter
+        :rtype: ndarray
+
+        **Sample declaration**
+        :: 
+            >> var1 = Parameter(points=12, shape_parameter_A=0.5, param_type='Exponential')
+            >> x, y = var1.getCDF(50)
+        """
+        if self.param_type is "Gaussian":
+            x, y = analytical.CDF_GaussianDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
+        elif self.param_type is "Beta":
+            x, y = analytical.CDF_BetaDistribution(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper) 
+        elif self.param_type is "Gamma":
+            x, y = analytical.CDF_Gamma(N, self.shape_parameter_A, self.shape_parameter_B)
+        elif self.param_type is "Weibull":
+            x, y = analytical.CDF_WeibullDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
+        elif self.param_type is "Cauchy":
+            x, y = analytical.CDF_CauchyDistribution(N, self.shape_parameter_A, self.shape_parameter_B)
+        elif self.param_type is "Uniform":
+            x, y = analytical.CDF_UniformDistribution(N, self.lower, self.upper)
+        elif self.param_type is "TruncatedGaussian":
+            x, y = analytical.CDF_TruncatedGaussian(N, self.shape_parameter_A, self.shape_parameter_B, self.lower, self.upper)
+        elif self.param_type is "Exponential":
+            x, y = analytical.CDF_ExponentialDistribution(N, self.shape_parameter_A)
+        else:
+            raise(ValueError, 'parameter getCDF(): invalid parameter type!')
+        return x, y
 
     def get_iCDF(self, x):
         """
@@ -221,7 +242,7 @@ class Parameter(object):
         elif self.param_type is "Exponential":
             y = analytical.iCDF_ExponentialDistribution(x, self.shape_parameter_A)
         else:
-            error_function('parameter getiCDF(): invalid parameter type!')
+            raise(ValueError, 'parameter getiCDF(): invalid parameter type!')
         return y
     
     def getRecurrenceCoefficients(self, order=None):
